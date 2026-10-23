@@ -35,11 +35,20 @@ Singleton {
         for (const e of events) {
             const key = e.id + "|" + e.start;
             const delta = new Date(e.start).getTime() - now;
-            if (alerted[key] || delta > leadMinutes * 60000 || delta < -5 * 60000)
-                continue;
-            alerted[key] = true;
-            alert(e);
+            if (delta > 0 && delta <= leadMinutes * 60000 && !alerted["warn|" + key]) {
+                alerted["warn|" + key] = true;
+                warn(e);
+            } else if (delta <= 0 && delta >= -5 * 60000 && !alerted[key]) {
+                alerted[key] = true;
+                alert(e);
+            }
         }
+    }
+
+    // Dismissable heads-up, no sound.
+    function warn(e) {
+        Quickshell.execDetached(["notify-send", "-a", "Calendar", e.title,
+            "Starts in " + leadMinutes + " minutes"]);
     }
 
     function alert(e) {
@@ -52,7 +61,7 @@ Singleton {
         target: "meetings"
 
         function test(): void {
-            const start = new Date(Date.now() + 2 * 60000).toISOString();
+            const start = new Date().toISOString();
             root.alert({id: "test-" + Date.now(), title: "Test meeting", start: start, link: "https://meet.google.com"});
         }
     }
