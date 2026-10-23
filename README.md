@@ -5,7 +5,8 @@ A meeting alert widget for the [end-4/dots-hyprland](https://github.com/end-4/do
 
 - shows the next meeting in the bar as `● 📅 HH:MM`, with a dot that is grey (> 15 min), green (> 5 min) or yellow (≤ 5 min);
 - shows the meeting title on hover;
-- 5 minutes before a meeting, raises a persistent card with *Join* (Meet link) and *Dismiss*, and rings
+- 5 minutes before a meeting, shows a dismissable notification (no sound);
+- when the meeting starts, raises a persistent card with *Join* (Meet link) and *Dismiss*, and rings
   repeatedly until you press one of them.
 
 It only works with those dots: it patches ii's bar and relies on its components.
